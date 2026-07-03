@@ -38,13 +38,8 @@ Since one person cannot do every job equally well, this project also divides the
      | Agent | Responsibility |
 |--------|----------------|
 | Relevance Agent | This agent checks whether the AI has actually answered the user's question. Sometimes an AI gives a long answer, but it doesn't really answer what was asked. The Relevance Agent makes sure the response stays on the topic. |
-
-| Accuracy Agent | This agent checks whether the information given by the AI is correct. If there are facts, dates, names or other important details, it compares them with the reference available in the knowledge base to make sure the answer is reliable. |
-
-| Hallucination Agent | Sometimes AI gives information that sounds correct but is actually wrong or has no proof. The Hallucination Agent checks for such information and verifies it with the reference data. If the information is not supported, it is marked as a hallucination. |
-
+| Accuracy Agent | This agent checks whether the information given by the AI is correct. If there are facts, dates, names or other important details, it compares them with the reference available in the knowledge base to make sure the answer is reliable. || Hallucination Agent | Sometimes AI gives information that sounds correct but is actually wrong or has no proof. The Hallucination Agent checks for such information and verifies it with the reference data. If the information is not supported, it is marked as a hallucination. |
 | Completeness Agent | This agent checks whether the AI has answered the question completely. Even if the answer is correct, it may miss some important points. The Completeness Agent helps find those missing parts. |
-
 | Verdict Agent | This is the final agent in the system. It collects the results from all the other agents and prepares the final evaluation report. The report gives an overall idea of how good and reliable the AI response is. |
 
 ## 6. Agent Orchestration Flow
