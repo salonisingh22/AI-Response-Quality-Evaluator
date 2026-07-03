@@ -49,3 +49,35 @@ In this project, all the agents work together to evaluate the AI-generated respo
 Each agent has its own role in the evaluation. The Relevance Agent checks if the response answers the user's question, the Accuracy Agent verifies whether the information is correct, the Hallucination Agent checks for any unsupported or incorrect claims, and the Completeness Agent makes sure that no important point has been missed.
 
 If the system needs to verify any information, it retrieves the required reference from the RAG knowledge base. After all the agents finish their work, their results are collected by the Verdict Agent. The Verdict Agent combines all the findings and prepares the final evaluation report, which is then displayed on the dashboard. In this way, all the agents work together to provide a complete and reliable evaluation of the AI-generated response.
+
+   ### Agent Orchestration Flow Diagram
+
+User
+   │
+   ▼
+Input Module
+   │
+   ▼
+Evaluation Orchestrator
+   │
+   ├── Relevance Agent
+   ├── Accuracy Agent
+   ├── Hallucination Agent
+   ├── Completeness Agent
+   │
+   ▼
+Verdict Agent
+   │
+   ▼
+Dashboard
+
+
+## 7. System Architecture
+
+The system is designed in a way that every part has its own job. When the user gives a question and an AI-generated response, the evaluation process starts. If the system needs to check whether any information is correct, it first gets the required reference from the RAG knowledge base.
+
+After that, the Evaluation Orchestrator takes over and sends the response to different evaluation agents. Instead of checking everything together, each agent checks only one thing. The Relevance Agent checks whether the response actually answers the question. The Accuracy Agent checks if the information is correct. The Hallucination Agent looks for any information that is not supported by the reference, and the Completeness Agent checks whether any important point has been left out.
+
+When all the agents finish their work, the Verdict Agent collects their results and prepares the final evaluation report. This report is then shown on the dashboard so that the user can easily understand how good and reliable the AI response is.
+
+I chose this modular design because it keeps the system simple and organized. It also makes it easier to improve the project later by adding more evaluation agents without changing the whole system.
