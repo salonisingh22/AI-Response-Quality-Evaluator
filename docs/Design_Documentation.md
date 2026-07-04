@@ -80,4 +80,8 @@ After that, the Evaluation Orchestrator takes over and sends the response to dif
 
 When all the agents finish their work, the Verdict Agent collects their results and prepares the final evaluation report. This report is then shown on the dashboard so that the user can easily understand how good and reliable the AI response is.
 
-I chose this modular design because it keeps the system simple and organized. It also makes it easier to improve the project later by adding more evaluation agents without changing the whole system.
+I chose this modular design because it keeps the system simple and organized. It also makes it easier to improve the project later by adding more evaluation agents without changing the whole system.!
+
+
+### System Architecture Diagram
+![System Architecture](images/system_architecture.jpeg)
