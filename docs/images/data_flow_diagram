@@ -1,0 +1,19 @@
+User
+  │
+  ▼
+Question + AI Response
+  │
+  ▼
+Input Module
+  │
+  ▼
+RAG Pipeline
+  │
+  ▼
+Knowledge Base
+  │
+  ▼
+Evaluation Agents
+  │
+  ▼
+Final Report

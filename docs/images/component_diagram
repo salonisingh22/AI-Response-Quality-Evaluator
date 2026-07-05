@@ -1,0 +1,17 @@
+User
+      │
+      ▼
+Evaluation Input Module
+      │
+      ▼
+Evaluation Orchestrator
+      │
+ ┌────┼────┬─────┐
+ ▼    ▼    ▼     ▼
+Relevance Accuracy Hallucination Completeness
+      │
+      ▼
+Verdict Agent
+      │
+      ▼
+Dashboard

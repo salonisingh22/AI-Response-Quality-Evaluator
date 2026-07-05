@@ -1,0 +1,17 @@
+TruthfulQA
+SQuAD
+     │
+     ▼
+Chunking
+     │
+     ▼
+Embeddings
+     │
+     ▼
+ChromaDB
+     │
+     ▼
+Retriever
+     │
+     ▼
+Evaluation Agents
