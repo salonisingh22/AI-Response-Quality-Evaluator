@@ -803,12 +803,6 @@ Verdict : {verdict}
 """
 
     
-    st.download_button(
-        label="📥 Download Evaluation Report (CSV)",
-        data=csv,
-        file_name="AI_Evaluation_Report.csv",
-        mime="text/csv",
-        use_container_width=True,
-    )
+
 
     
