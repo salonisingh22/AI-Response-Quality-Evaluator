@@ -5,7 +5,7 @@ import datetime
 import os
 
 from src.orchestrator.orchestrator import evaluate_response
-
+from src.rag.retriever import retrieve
 
 # ---------------- PAGE CONFIG ----------------
 
@@ -167,9 +167,6 @@ visibility:hidden;
 # ---------------- SIDEBAR ----------------
 
 
-# ---------------- SIDEBAR ----------------
-
-
 with st.sidebar:
 
     st.markdown("# 🤖 AI Evaluator")
@@ -293,10 +290,6 @@ st.write("")
 # ---------------- MAIN AREA ----------------
 
 
-
-# ---------------- MAIN AREA ----------------
-
-
 left,right = st.columns([2,1])
 
 
@@ -329,13 +322,52 @@ with left:
     )
 
 
+    st.markdown("🔎 **Reference Answer** — type your own, or retrieve one from the knowledge base:")
+
+    col_retrieve, col_spacer = st.columns([1, 2])
+
+    with col_retrieve:
+        retrieve_clicked = st.button(
+            "🔎 Retrieve from Knowledge Base",
+            use_container_width=True,
+            disabled=(question.strip() == "")
+        )
+
+    if "reference_text" not in st.session_state:
+        st.session_state.reference_text = ""
+
+    SIMILARITY_THRESHOLD = 0.3  # below this, treat as "no good match"
+
+    if retrieve_clicked:
+        with st.spinner("Searching knowledge base..."):
+            try:
+                results = retrieve(question, top_k=1)
+                if results and results[0]["score"] >= SIMILARITY_THRESHOLD:
+                    best = results[0]
+                    st.session_state.reference_text = best["text"]
+                    st.caption(
+                        f"Retrieved from **{best['metadata']['source']}** "
+                        f"(similarity: {best['score']})"
+                    )
+                else:
+                    st.warning(
+                        "No sufficiently relevant match found in the knowledge base "
+                        "for this question. Please type a reference answer manually."
+                    )
+            except RuntimeError as e:
+                st.error(str(e))
+
     reference = st.text_area(
 
         "📚 Reference Answer",
 
         placeholder="Optional reference answer...",
 
-        height=180
+        height=180,
+
+        value=st.session_state.reference_text,
+
+        key="reference_text"
 
     )
 
@@ -433,6 +465,7 @@ if evaluate:
     hallucination = results["hallucination"]
     completeness = results["completeness"]
     overall = results["overall"]
+    judge_details = results.get("judge_details", {})
 
     current_time = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
 
@@ -598,6 +631,28 @@ if evaluate:
     )
 
     st.markdown("---")
+
+    if judge_details:
+        st.markdown("---")
+        st.subheader("🧠 Judge Reasoning (LLM-based)")
+
+        with st.expander("🎯 Relevance Judge reasoning"):
+            rel = judge_details.get("relevance", {})
+            st.write(f"**Score:** {rel.get('score', 'N/A')}/5")
+            st.write(f"**Reasoning:** {rel.get('reasoning', 'N/A')}")
+
+        with st.expander("✅ Accuracy Judge reasoning"):
+            acc = judge_details.get("accuracy", {})
+            st.write(f"**Score:** {acc.get('score', 'N/A')}/5")
+            st.write(f"**Reasoning:** {acc.get('reasoning', 'N/A')}")
+            st.write(f"**Evidence used:** {acc.get('evidence_used', 'N/A')}")
+
+        with st.expander("⚠ Hallucination Judge reasoning"):
+            hal = judge_details.get("hallucination", {})
+            st.write(f"**Hallucination detected:** {hal.get('hallucination_detected', 'N/A')}")
+            st.write(f"**Claims checked:** {hal.get('claims_checked', [])}")
+            st.write(f"**Unsupported claims:** {hal.get('unsupported_claims', [])}")
+            st.write(f"**Reasoning:** {hal.get('reasoning', 'N/A')}")
 
     st.subheader("🤖 Agent Analysis")
 
@@ -801,8 +856,3 @@ Overall : {overall:.2f}
 
 Verdict : {verdict}
 """
-
-    
-
-
-    
